@@ -1,0 +1,49 @@
+.p-badge {
+    @apply inline-flex items-center justify-center rounded-md
+        py-0 px-2 text-xs font-bold min-w-6 h-6
+        bg-primary text-primary-contrast
+}
+
+.p-badge-dot {
+    @apply min-w-2 h-2 rounded-full p-0
+}
+
+.p-badge-circle {
+    @apply p-0 rounded-full
+}
+
+.p-badge-secondary {
+    @apply bg-surface-100  text-surface-600 
+}
+
+.p-badge-success {
+    @apply bg-green-500  text-white 
+}
+
+.p-badge-info {
+    @apply bg-sky-500  text-white 
+}
+
+.p-badge-warn {
+    @apply bg-orange-500  text-white 
+}
+
+.p-badge-danger {
+    @apply bg-red-500  text-white 
+}
+
+.p-badge-contrast {
+    @apply bg-surface-950  text-white 
+}
+
+.p-badge-sm {
+    @apply text-[0.625rem] min-w-5 h-5
+}
+
+.p-badge-lg {
+    @apply text-sm min-w-7 h-7
+}
+
+.p-badge-xl {
+    @apply text-base min-w-8 h-8
+}

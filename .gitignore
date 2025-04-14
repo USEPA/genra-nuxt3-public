@@ -1,0 +1,34 @@
+# Nuxt dev/build outputs
+.output
+.data
+.nuxt
+.nitro
+.cache
+dist
+
+# Node dependencies
+node_modules
+# vscode settings
+.vscode/
+
+# Logs
+logs
+*.log
+
+# Misc
+.DS_Store
+.fleet
+.idea
+
+# Local env files
+.env
+.env.*
+.npmrc
+!.env.example
+
+# testing
+coverage
+./test/vitest/coverage
+
+# Husky
+.husky/_

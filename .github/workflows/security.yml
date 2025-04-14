@@ -1,0 +1,59 @@
+name: Security Workflows 
+
+on:
+  push:
+    branches: [ dev, staging ]
+    tags: [ 'v*.*.*' ]
+   
+jobs:
+  container-scan:
+    runs-on: th878
+    environment: ${{ github.head_ref || github.ref_name }}
+    permissions:
+      contents: read
+      packages: write
+      id-token: write
+
+    steps: 
+      - name: Set .npmrc Content Environment Variable
+        run: |
+          echo "NPMRC_CONTENT=//npm.pkg.github.com/:_authToken=${{ secrets.GITHUB_TOKEN }}" >> $GITHUB_ENV
+          echo "@usepa:registry=https://npm.pkg.github.com/" >> $GITHUB_ENV
+        shell: bash
+
+      - name: Run Container Security Scan Action
+        uses: USEPA/ccte-container-scan@main
+        with:
+          image_name: genra-nuxt3-security-cs
+          dockerfile: Dockerfile
+          output_path: ./output/genra-nuxt3-report.html
+          cleanup_path: /data/watchtower/genra/container-results/genra-nuxt3/genra-nuxt3-report.html
+          watchtower_path: /data/watchtower/genra/container-results/genra-nuxt3/genra-nuxt3-report.html
+          npmrc_content: ${{ env.NPMRC_CONTENT }}
+
+  trufflehog:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Run Scan
+      uses: USEPA/ccte-secret-scan@main
+      with:
+        base_branch: ${{ github.event.repository.default_branch }}
+
+  build-and-upload-sbom:
+    runs-on: th878
+    steps:
+      - name: Set .npmrc Content Environment Variable
+        run: |
+          echo "NPMRC_CONTENT=//npm.pkg.github.com/:_authToken=${{ secrets.GITHUB_TOKEN }}" >> $GITHUB_ENV
+          echo "@usepa:registry=https://npm.pkg.github.com/" >> $GITHUB_ENV 
+        shell: bash
+        
+      - name: Generate and Upload SBOM
+        uses: USEPA/ccte-sbom-generator-vue@main
+        with:
+          node_version: '20'
+          server_hostname: 'ccte-api-dependency-track.epa.gov'
+          api_key: ${{ secrets.SECRET_OWASP_DT_KEY }}
+          project_name: 'genra-nuxt3'
+          project_version: ${{ github.ref_name }}
+          npmrc_content: ${{ env.NPMRC_CONTENT }}

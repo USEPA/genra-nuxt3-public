@@ -1,0 +1,1 @@
+export const HIDE_EPA_HEADER_FOOTER_MSG = 'The EPA\'s header and footer has been minimized to improve the application user experience. To display the EPA\'s header and footer press the minimize icon on the navbar above this message.';

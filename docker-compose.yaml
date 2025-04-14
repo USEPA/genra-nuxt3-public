@@ -1,0 +1,15 @@
+
+# NOTE: The genra_api repo. has it's own docker-compose-ui.yml file for
+# building this image for local development, make sure you're looking at the
+# right one.
+services:
+  genra-ui:
+    env_file:
+      - .env
+    ports:
+      - ${APPLICATION_SERVER_PORT}:3000
+    image: ghcr.io/usepa/genra-ui
+    build:
+      context: .
+      args:
+        GITHUB_TOKEN: ${GITHUB_TOKEN}
